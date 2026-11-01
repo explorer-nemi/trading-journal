@@ -5,7 +5,8 @@ import { requireDb, wrap } from '../util.js';
 const router = Router();
 router.use(requireDb);
 
-const FIELDS = ['displayName', 'broker', 'startingCapital', 'maxLoss', 'targetMin', 'targetMax', 'maxLossTrades', 'expiryNearDays'];
+// Rule limits are fixed in the app now, so only personal details are editable here.
+const FIELDS = ['displayName', 'broker', 'startingCapital'];
 
 const getOrCreate = () =>
   Profile.findOneAndUpdate({ key: 'me' }, { $setOnInsert: { key: 'me' } }, { upsert: true, new: true, setDefaultsOnInsert: true }).lean();
@@ -20,3 +21,5 @@ router.put('/', wrap(async (req, res) => {
 }));
 
 export default router;
+
+

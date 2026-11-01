@@ -22,11 +22,16 @@ const tradeSchema = new mongoose.Schema(
     strategy: String,
     outcome: String,
     analysis: String,
+    // One tick per rule. The three/four without defaults are new: older trades fall back to auto-checks in the app.
     checks: {
-      confirm5m: { type: Boolean, default: false },
-      srLevel: { type: Boolean, default: false },
-      expiryOk: { type: Boolean, default: false },
-      noGreed: { type: Boolean, default: false },
+      slPlaced: Boolean, // rule 7
+      lossOk: Boolean, // rule 1
+      confirm5m: { type: Boolean, default: false }, // rule 3
+      srLevel: { type: Boolean, default: false }, // rule 3
+      expiryOk: { type: Boolean, default: false }, // rule 4
+      noOvertrade: Boolean, // rule 5
+      noGreed: { type: Boolean, default: false }, // rule 6
+      targetOk: Boolean, // rule 2
     },
     psychology: {
       confidence: { type: Number, default: 5, min: 1, max: 10 },
@@ -35,6 +40,9 @@ const tradeSchema = new mongoose.Schema(
       mistakes: [String],
       lessons: String,
     },
+    // Chart screenshots (compressed in the browser). Hidden from list queries to keep them fast.
+    screenshots: { type: [String], select: false },
+    shotCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -15,12 +15,14 @@ async function req(path, opts = {}) {
 
 export const api = {
   trades: () => req('/trades'),
+  trade: (id) => req('/trades/' + id), // includes screenshots
   addTrade: (b) => req('/trades', { method: 'POST', body: b }),
+  bulkTrades: (trades) => req('/trades/bulk', { method: 'POST', body: { trades } }),
   updateTrade: (id, b) => req('/trades/' + id, { method: 'PUT', body: b }),
   deleteTrade: (id) => req('/trades/' + id, { method: 'DELETE' }),
   profile: () => req('/profile'),
   saveProfile: (b) => req('/profile', { method: 'PUT', body: b }),
   days: () => req('/days'),
-  saveDay: (date, b) => req('/days/' + date, { method: 'PUT', body: b }),
+  saveDay: (date, b) => req('/days/' + date, { method: 'PUT', body: b }), // { noTrade, note, todos }
   oi: (expiry, nearDays) => req(`/nifty/oi?nearDays=${nearDays ?? 1}` + (expiry ? `&expiry=${encodeURIComponent(expiry)}` : '')),
 };
